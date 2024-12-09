@@ -24,6 +24,11 @@ export async function POST(req: Request, res: NextApiResponse) {
     console.log(name);
     const newHotel = await db.collection('hotels').insertOne({
       name: data.name,
+      city: data.city,
+      images: {
+        main: data.images.main,
+        supporting: data.images.supporting,
+      },
       contact: {
         number: data.contact.number,
         email: data.contact.email,

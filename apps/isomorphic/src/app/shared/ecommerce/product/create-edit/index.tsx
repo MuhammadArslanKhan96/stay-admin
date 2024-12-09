@@ -21,29 +21,46 @@ import DeliveryEvent from '@/app/shared/ecommerce/product/create-edit/delivery-e
 import ProductVariants from '@/app/shared/ecommerce/product/create-edit/product-variants';
 import ProductTaxonomies from '@/app/shared/ecommerce/product/create-edit/product-tags';
 import FormFooter from '@core/components/form-footer';
+// import {
+//   CreateProductInput,
+//   productFormSchema,
+// } from '@/validators/create-product.schema';
 import {
-  CreateProductInput,
-  productFormSchema,
-} from '@/validators/create-product.schema';
+  CreateHotelInput,
+  hotelFormSchema,
+} from '@/validators/create-hotel.schema';
 import { useLayout } from '@/layouts/use-layout';
 import { LAYOUT_OPTIONS } from '@/config/enums';
+// import { CreateHotelInput } from '@/validators/create-hotel.schema';
 
 const MAP_STEP_TO_COMPONENT = {
   [formParts.summary]: ProductSummary,
   [formParts.media]: ProductMedia,
-  [formParts.pricingInventory]: PricingInventory,
-  [formParts.productIdentifiers]: ProductIdentifiers,
-  [formParts.shipping]: ShippingInfo,
-  [formParts.seo]: ProductSeo,
-  [formParts.deliveryEvent]: DeliveryEvent,
+  // [formParts.pricingInventory]: PricingInventory,
+  // [formParts.productIdentifiers]: ProductIdentifiers,
+  // [formParts.shipping]: ShippingInfo,
+  // [formParts.seo]: ProductSeo,
+  // [formParts.deliveryEvent]: DeliveryEvent,
   [formParts.variantOptions]: ProductVariants,
-  [formParts.tagsAndCategory]: ProductTaxonomies,
+  // [formParts.tagsAndCategory]: ProductTaxonomies,
 };
+
+function getDownloadableLink(googleDriveLink: string): string {
+  const regex = /\/file\/d\/([^/]+)\//;
+  const match = googleDriveLink.match(regex);
+
+  if (!match || match.length < 2) {
+    throw new Error('Invalid Google Drive link');
+  }
+
+  const fileId = match[1];
+  return `https://drive.google.com/uc?export=download&id=${fileId}`;
+}
 
 interface IndexProps {
   slug?: string;
   className?: string;
-  product?: CreateProductInput;
+  product?: CreateHotelInput;
 }
 
 export default function CreateEditProduct({
@@ -53,21 +70,55 @@ export default function CreateEditProduct({
 }: IndexProps) {
   const { layout } = useLayout();
   const [isLoading, setLoading] = useState(false);
-  const methods = useForm<CreateProductInput>({
-    resolver: zodResolver(productFormSchema),
-    defaultValues: defaultValues(product),
+  const methods = useForm<CreateHotelInput>({
+    // resolver: zodResolver(hotelFormSchema),
+    // defaultValues: defaultValues(product),
   });
 
-  const onSubmit: SubmitHandler<CreateProductInput> = (data) => {
+  const onSubmit: SubmitHandler<CreateHotelInput> = async (data) => {
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      console.log('product_data', data);
+    // setTimeout(() => {
+    //   setLoading(false);
+    //   console.log('product_data', data);
+    //   toast.success(
+    //     <Text as="b">Hotel successfully {slug ? 'updated' : 'created'}</Text>
+    //   );
+    //   methods.reset();
+    // }, 600);
+    try {
+      const res = await fetch('/api/hotels', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: data.name,
+          city: data.city,
+          // description: data.description,
+          images: {
+            main: data.images.main,
+            supporting: [data.images.main, data.images.main],
+          },
+          contact: {
+            number: data.contact.number,
+            email: data.contact.email,
+          },
+          rooms: data.rooms,
+          available: true,
+        }),
+      });
       toast.success(
-        <Text as="b">Product successfully {slug ? 'updated' : 'created'}</Text>
+        <Text as="b">Hotel successfully {slug ? 'updated' : 'created'}</Text>
       );
       methods.reset();
-    }, 600);
+      setLoading(false);
+    } catch (error: any) {
+      console.log(error?.message);
+      toast.error(
+        <Text as="b">Failed to {slug ? 'update' : 'create'} hotel</Text>
+      );
+      setLoading(false);
+    }
   };
 
   return (
@@ -98,7 +149,7 @@ export default function CreateEditProduct({
 
           <FormFooter
             isLoading={isLoading}
-            submitBtnText={slug ? 'Update Product' : 'Create Product'}
+            submitBtnText={slug ? 'Update Hotel' : 'Create Hotel'}
           />
         </form>
       </FormProvider>

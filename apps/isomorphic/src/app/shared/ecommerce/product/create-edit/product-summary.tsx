@@ -26,25 +26,90 @@ export default function ProductSummary({ className }: { className?: string }) {
   } = useFormContext();
 
   return (
-    <FormGroup
-      title="Summary"
-      description="Edit your product description and necessary information from here"
-      className={cn(className)}
-    >
-      <Input
-        label="Title"
-        placeholder="Product title"
-        {...register('title')}
-        error={errors.title?.message as string}
-      />
-      <Input
-        label="SKU"
-        placeholder="Product sku"
-        {...register('sku')}
-        error={errors.sku?.message as string}
-      />
+    <>
+      <FormGroup
+        title="Summary"
+        description="Edit your hotels description and necessary information from here"
+        className={cn(className)}
+      >
+        <Input
+          label="Hotel Name"
+          placeholder="Hotel Name"
+          {...register('name')}
+          error={errors.title?.message as string}
+        />
+        <Input
+          label="City"
+          placeholder="City"
+          {...register('city')}
+          error={errors.sku?.message as string}
+        />
 
-      <Controller
+        {/* <Controller
+          name="type"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <Select
+              dropdownClassName="h-auto"
+              options={typeOption}
+              value={value}
+              onChange={onChange}
+              label="Product Type"
+              error={errors?.type?.message as string}
+              getOptionValue={(option) => option.value}
+            />
+          )}
+        /> */}
+
+        {/* <Controller
+          name="categories"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <Select
+              options={categoryOption}
+              value={value}
+              onChange={onChange}
+              label="Categories"
+              error={errors?.categories?.message as string}
+              getOptionValue={(option) => option.value}
+              dropdownClassName="h-auto"
+            />
+          )}
+        /> */}
+
+        {/* <Controller
+          control={control}
+          name="description"
+          render={({ field: { onChange, value } }) => (
+            <QuillEditor
+              value={value}
+              onChange={onChange}
+              label="Description"
+              className="col-span-full [&_.ql-editor]:min-h-[100px]"
+              labelClassName="font-medium text-gray-700 dark:text-gray-600 mb-1.5"
+            />
+          )}
+        /> */}
+      </FormGroup>
+      <FormGroup
+        title="Contact"
+        description="Edit your hotels contact information from here"
+        className={cn(className)}
+      >
+        <Input
+          label="Phone"
+          placeholder="Phone Number"
+          {...register('contact.number')}
+          error={errors.title?.message as string}
+        />
+        <Input
+          label="Email"
+          placeholder="user@example.com"
+          {...register('contact.email')}
+          error={errors.sku?.message as string}
+        />
+
+        {/* <Controller
         name="type"
         control={control}
         render={({ field: { onChange, value } }) => (
@@ -88,7 +153,8 @@ export default function ProductSummary({ className }: { className?: string }) {
             labelClassName="font-medium text-gray-700 dark:text-gray-600 mb-1.5"
           />
         )}
-      />
-    </FormGroup>
+      /> */}
+      </FormGroup>
+    </>
   );
 }

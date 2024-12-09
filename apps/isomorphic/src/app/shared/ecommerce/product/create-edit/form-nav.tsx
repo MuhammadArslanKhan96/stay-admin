@@ -23,24 +23,24 @@ export const menuItems = [
     label: 'Images & Gallery',
     value: formParts.media,
   },
+  // {
+  //   label: 'Pricing & Rooms',
+  //   value: formParts.pricingInventory,
+  // },
+  // {
+  //   label: 'Product Identifiers & Custom Fields',
+  //   value: formParts.productIdentifiers,
+  // },
+  // {
+  //   label: 'Shipping',
+  //   value: formParts.shipping,
+  // },
+  // {
+  //   label: 'SEO',
+  //   value: formParts.seo,
+  // },
   {
-    label: 'Pricing & Inventory',
-    value: formParts.pricingInventory,
-  },
-  {
-    label: 'Product Identifiers & Custom Fields',
-    value: formParts.productIdentifiers,
-  },
-  {
-    label: 'Shipping',
-    value: formParts.shipping,
-  },
-  {
-    label: 'SEO',
-    value: formParts.seo,
-  },
-  {
-    label: 'Variant Options',
+    label: 'Rooms',
     value: formParts.variantOptions,
   },
 ];

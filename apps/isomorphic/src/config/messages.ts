@@ -20,7 +20,7 @@ export const messages = {
   roleIsRequired: 'Role is required',
   permissionIsRequired: 'Permission is required',
   teamIsRequired: 'New member must be assigned to a team',
-  productNameIsRequired: 'Product name is required',
+  productNameIsRequired: 'Hotel name is required',
   productTypeIsRequired: 'Product type is required',
   priceIsRequired: 'Product price is required',
   retailPriceIsRequired: 'Retail price is required',
@@ -71,4 +71,6 @@ export const messages = {
   roleNameLengthMin: 'Role name must be at least 3 letters',
   errorSendingEmail: 'Error sending email',
   emailSentSuccessfully: 'Your email has been sent successfully.',
+  contactNumberRequired: 'Contact number is is required',
+  imageIsRequired: 'The main image is required',
 };

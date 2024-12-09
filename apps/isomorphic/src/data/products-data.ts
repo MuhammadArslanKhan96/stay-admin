@@ -10,6 +10,32 @@ export type ProductType = {
   rating: number[];
 };
 
+export type HotelType = {
+  id: string;
+  name: string;
+  city: string;
+  images: {
+    main: string;
+    supporting: string[];
+  };
+  contact: {
+    number: string;
+    email: string;
+  };
+  rooms: [
+    {
+      name: string;
+      people: number;
+      size: number;
+      beds: number;
+      bathrooms: number;
+      price: number;
+      image: string;
+      available: boolean;
+    },
+  ];
+};
+
 export const productsData = [
   {
     id: '0o02051402',

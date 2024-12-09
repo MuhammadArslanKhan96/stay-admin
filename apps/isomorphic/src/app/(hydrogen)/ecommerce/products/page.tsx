@@ -1,18 +1,20 @@
+'use client';
 import Link from 'next/link';
 import { PiPlusBold } from 'react-icons/pi';
 import { routes } from '@/config/routes';
 import { Button } from 'rizzui';
 import PageHeader from '@/app/shared/page-header';
 import ProductsTable from '@/app/shared/ecommerce/product/product-list/table';
-import { productsData } from '@/data/products-data';
+// import { productsData } from '@/data/products-data';
 import { metaObject } from '@/config/site.config';
 import ExportButton from '@/app/shared/export-button';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import clientPromise from '../../../api/hotels/lib';
+import { useEffect, useState } from 'react';
 
-export const metadata = {
-  ...metaObject('Products'),
-};
+// export const metadata = {
+//   ...metaObject('Products'),
+// };
 
 const pageHeader = {
   title: 'Products',
@@ -32,12 +34,32 @@ const pageHeader = {
 };
 
 export default function ProductsPage() {
+  const [hotelData, setHotelData] = useState<any>();
+  useEffect(() => {
+    async function getHotelData() {
+      const data: any = await fetch('/api/hotels', {
+        method: 'GET',
+      });
+      const hotels = await data.json();
+      setHotelData(hotels);
+    }
+    getHotelData();
+  }, []);
+
+  const displayTable = () => {
+    return hotelData ? (
+      <ProductsTable pageSize={10} hotelData={hotelData} isLoading={false} />
+    ) : (
+      <ProductsTable pageSize={10} hotelData={hotelData} isLoading={true} />
+    );
+  };
+
   return (
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb}>
         <div className="mt-4 flex items-center gap-3 @lg:mt-0">
           <ExportButton
-            data={productsData}
+            data={hotelData}
             fileName="product_data"
             header="ID,Name,Category,Product Thumbnail,SKU,Stock,Price,Status,Rating"
           />
@@ -52,8 +74,8 @@ export default function ProductsPage() {
           </Link>
         </div>
       </PageHeader>
-
-      <ProductsTable pageSize={10} />
+      {/* <ProductsTable pageSize={10} hotelData={hotelData} /> */}
+      {displayTable()}
     </>
   );
 }

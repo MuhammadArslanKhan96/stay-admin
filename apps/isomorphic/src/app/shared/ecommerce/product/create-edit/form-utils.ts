@@ -19,6 +19,18 @@ export const productVariants = [
     value: '',
   },
 ];
+export const roomVariants = [
+  {
+    name: '',
+    people: '',
+    size: '',
+    beds: '',
+    bathrooms: '',
+    price: '',
+    image: '',
+    available: '',
+  },
+];
 
 export function defaultValues(product?: CreateProductInput) {
   return {
@@ -180,11 +192,11 @@ export const typeOption = [
 // Variant option
 export const variantOption = [
   {
-    value: 'single',
-    label: 'Single',
+    value: 'premium',
+    label: 'Premium',
   },
   {
-    value: 'multiple',
-    label: 'Multiple',
+    value: 'standard',
+    label: 'Standard',
   },
 ];

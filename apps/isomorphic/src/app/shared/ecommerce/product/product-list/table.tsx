@@ -26,6 +26,8 @@ export default function ProductsTable({
     rowClassName: 'last:border-0',
   },
   paginationClassName,
+  hotelData,
+  isLoading,
 }: {
   pageSize?: number;
   hideFilters?: boolean;
@@ -33,53 +35,35 @@ export default function ProductsTable({
   hideFooter?: boolean;
   classNames?: TableClassNameProps;
   paginationClassName?: string;
+  hotelData: any;
+  isLoading: boolean;
 }) {
-  const [hotelData, setHotelData] = useState<any>();
-  const [tableState, setTableState] = useState<any>();
-  const [hook, setHook] = useState<any>();
-  useEffect(() => {
-    async function getTableData() {
-      // const client = await clientPromise;
-      // const db = client.db('staychain');
-      // const hotels: any = await db.collection('hotels').find({}).toArray();
-      // console.log(hotels);
-      const data: any = await fetch('http://localhost:3000/api/hotels', {
-        method: 'GET',
-      });
-      const hotels = await data.json();
-      // console.log(hotels);
-      setHotelData(hotels);
-      const { table, setData } = useTanStackTable<any | []>({
-        tableData: hotelData,
-        columnConfig: productsListColumns,
-        options: {
-          initialState: {
-            pagination: {
-              pageIndex: 0,
-              pageSize: pageSize,
-            },
-          },
-          meta: {
-            handleDeleteRow: (row) => {
-              setData((prev) => prev.filter((r) => r.id !== row.id));
-            },
-            handleMultipleDelete: (rows) => {
-              setData((prev) => prev.filter((r) => !rows.includes(r)));
-            },
-          },
-          enableColumnResizing: false,
-        },
-      });
-      setTableState(table);
-      setHook(setData);
-    }
-    getTableData();
-  }, []);
   console.log(hotelData);
-
-  const selectedData = tableState?
+  const { table, setData } = useTanStackTable<any | []>({
+    tableData: hotelData ? hotelData : [],
+    columnConfig: productsListColumns,
+    options: {
+      initialState: {
+        pagination: {
+          pageIndex: 0,
+          pageSize: pageSize,
+        },
+      },
+      meta: {
+        handleDeleteRow: (row) => {
+          setData((prev) => prev.filter((r) => r.id !== row.id));
+        },
+        handleMultipleDelete: (rows) => {
+          setData((prev) => prev.filter((r) => !rows.includes(r)));
+        },
+      },
+      enableColumnResizing: false,
+    },
+  });
+  console.log(table.getRowModel());
+  const selectedData = table
     .getSelectedRowModel()
-    ?.rows?.map((row) => row.original);
+    .rows.map((row) => row.original);
 
   function handleExportData() {
     exportToCSV(
@@ -91,14 +75,17 @@ export default function ProductsTable({
 
   return (
     <>
-      {!hideFilters && <Filters table={tableState} />}
-      <Table table={tableState} variant="modern" classNames={classNames} />
-      {!hideFooter && (
-        <TableFooter table={tableState} onExport={handleExportData} />
-      )}
+      {!hideFilters && <Filters table={table} />}
+      <Table
+        table={table}
+        variant="modern"
+        classNames={classNames}
+        isLoading={isLoading}
+      />
+      {!hideFooter && <TableFooter table={table} onExport={handleExportData} />}
       {!hidePagination && (
         <TablePagination
-          table={tableState}
+          table={table}
           className={cn('py-4', paginationClassName)}
         />
       )}
