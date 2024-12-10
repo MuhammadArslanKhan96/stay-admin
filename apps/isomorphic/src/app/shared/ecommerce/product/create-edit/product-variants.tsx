@@ -107,7 +107,7 @@ export default function ProductVariants({ className }: { className?: string }) {
             placeholder="2"
             className="flex-grow"
             prefix={''}
-            {...register(`rooms.${index}.bathrooms`)}
+            {...register(`rooms.${index}.bathroom`)}
           />
           <Input
             type="number"

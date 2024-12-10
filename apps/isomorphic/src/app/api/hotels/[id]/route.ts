@@ -22,7 +22,7 @@ export async function PATCH(
     return NextResponse.json(updatedHotel);
   } catch (error: any) {
     console.log(error.message);
-    NextResponse.json(error.message);
+    return NextResponse.json(error.message);
   }
 }
 
@@ -46,10 +46,10 @@ export async function DELETE(
       .collection('hotels')
       .findOneAndDelete({ _id: new ObjectId(id) });
     console.log(deletedHotel);
-    NextResponse.json(deletedHotel);
+    return NextResponse.json(deletedHotel);
   } catch (error: any) {
     console.log(error.message);
-    NextResponse.json(error.message);
+    return NextResponse.json(error.message);
   }
 }
 export async function GET(
@@ -66,6 +66,6 @@ export async function GET(
     return NextResponse.json(hotels);
   } catch (error: any) {
     console.log(error.message);
-    NextResponse.json(error.message);
+    return NextResponse.json(error.message);
   }
 }

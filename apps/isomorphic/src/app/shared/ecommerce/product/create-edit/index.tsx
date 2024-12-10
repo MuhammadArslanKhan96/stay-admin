@@ -104,7 +104,7 @@ export default function CreateEditProduct({
             number: data.contact.number,
             email: data.contact.email,
           },
-          rooms: data.rooms,
+          room: data.rooms,
           available: true,
         }),
       });

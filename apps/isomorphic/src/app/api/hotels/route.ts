@@ -16,7 +16,12 @@ export async function GET(req: NextRequest) {
   //   NextResponse.json(error.message);
   // }
   try {
-    const hotels = await prisma.hotel.findMany();
+    const hotels = await prisma.hotel.findMany({
+      include: {
+        contact: true, // Include the related contact
+        room: true, // Include all related rooms
+      },
+    });
     console.log(hotels);
     return NextResponse.json(hotels);
   } catch (error: any) {
