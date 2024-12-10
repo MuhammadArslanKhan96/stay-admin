@@ -95,10 +95,11 @@ export default function CreateEditProduct({
           name: data.name,
           city: data.city,
           // description: data.description,
-          images: {
-            main: data.images.main,
-            supporting: [data.images.main, data.images.main],
-          },
+          // images: {
+          //   main: data.images.main,
+          //   supporting: [data.images.main, data.images.main],
+          // },
+          image: data.images.main,
           contact: {
             number: data.contact.number,
             email: data.contact.email,

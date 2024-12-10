@@ -11,6 +11,7 @@ import ExportButton from '@/app/shared/export-button';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import clientPromise from '../../../api/hotels/lib';
 import { useEffect, useState } from 'react';
+import prisma from '../../../../../prisma/prisma';
 
 // export const metadata = {
 //   ...metaObject('Products'),

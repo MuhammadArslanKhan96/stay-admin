@@ -1,8 +1,9 @@
-import { NextResponse } from 'next/server';
+// import { NextResponse } from 'next/server';
 import clientPromise from '../lib';
 import { ObjectId } from 'mongodb';
+import { NextRequest, NextResponse } from 'next/server';
 export async function PATCH(
-  req: Request,
+  req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
@@ -26,7 +27,7 @@ export async function PATCH(
 }
 
 export async function DELETE(
-  req: Request,
+  req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   const id = params.id;
@@ -52,7 +53,7 @@ export async function DELETE(
   }
 }
 export async function GET(
-  req: Request,
+  req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   const id = params.id;
