@@ -46,6 +46,7 @@
     "ahooks": "^3.8.1",
     "clsx": "^2.1.1",
     "core": "workspace:*",
+    "db": "workspace:*",
     "date-arithmetic": "^4.1.0",
     "dayjs": "^1.11.13",
     "eslint": "8.57.0",

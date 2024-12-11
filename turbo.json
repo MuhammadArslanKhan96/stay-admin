@@ -3,13 +3,14 @@
   "globalDependencies": ["**/.env.*local"],
   "tasks": {
     "build": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build", "^db:generate"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"],
       "env": [
         "NEXTAUTH_SECRET",
         "NEXTAUTH_URL",
         "NEXT_PUBLIC_GOOGLE_MAP_API_KEY",
-        "MONGODB_URI"
+        "MONGODB_URI",
+        "POSTGRES_URL"
       ]
     },
     "lint": {},
@@ -27,6 +28,12 @@
       "dependsOn": ["^cache:clean"]
     },
     "gen-icons": {
+      "cache": false
+    },
+    "db:generate": {
+      "cache": false
+    },
+    "db:push": {
       "cache": false
     }
   },

@@ -2,7 +2,7 @@ import DnDTablePage from '@/app/(hydrogen)/tables/dnd/page';
 import clientPromise from './lib';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { NextRequest, NextResponse } from 'next/server';
-import prisma from '../../../../prisma/prisma';
+import prisma from "../../../../prisma/prisma"
 import { COLORS } from '@/app/shared/financial/dashboard/investment/investment-utils';
 import { Turret_Road } from 'next/font/google';
 export async function GET(req: NextRequest) {

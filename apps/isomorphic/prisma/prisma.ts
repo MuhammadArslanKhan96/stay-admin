@@ -1,3 +1,5 @@
+import { PrismaClient } from 'db';
+
 declare global {
   var prisma: PrismaClient | undefined;
 }

@@ -18,7 +18,7 @@ model Hotel {
 
 model Contact{
   id    String     @id @default(cuid())
-  name  String
+  number  String
   email String
   hotelId String @unique
   hotel Hotel @relation(fields: [hotelId], references: [id])
