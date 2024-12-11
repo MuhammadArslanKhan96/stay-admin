@@ -5,7 +5,7 @@ import { getRatings } from '@core/components/table-utils/get-ratings';
 import { getStatusBadge } from '@core/components/table-utils/get-status-badge';
 import { getStockStatus } from '@core/components/table-utils/get-stock-status';
 import { routes } from '@/config/routes';
-import { HotelType, ProductType } from '@/data/products-data';
+import { ProductType } from '@/data/products-data';
 import EyeIcon from '@core/components/icons/eye';
 import PencilIcon from '@core/components/icons/pencil';
 import AvatarCard from '@core/ui/avatar-card';
@@ -13,7 +13,7 @@ import { createColumnHelper } from '@tanstack/react-table';
 import Link from 'next/link';
 import { ActionIcon, Checkbox, Flex, Text, Tooltip } from 'rizzui';
 
-const columnHelper = createColumnHelper<HotelType>();
+const columnHelper = createColumnHelper<ProductType>();
 
 export const productsListColumns = [
   columnHelper.display({
@@ -39,13 +39,13 @@ export const productsListColumns = [
   columnHelper.accessor('name', {
     id: 'name',
     size: 300,
-    header: 'Hotel',
+    header: 'Product',
     enableSorting: false,
     cell: ({ row }) => (
       <AvatarCard
-        src={row.original.images.main}
+        src={row.original.image}
         name={row.original.name}
-        description={row.original.name}
+        description={row.original.category}
         avatarProps={{
           name: row.original.name,
           size: 'lg',
@@ -55,40 +55,38 @@ export const productsListColumns = [
     ),
   }),
   columnHelper.display({
-    id: 'city',
+    id: 'sku',
     size: 150,
-    header: 'City',
-    cell: ({ row }) => <Text className="text-sm">{row.original.city}</Text>,
+    header: 'SKU',
+    cell: ({ row }) => <Text className="text-sm">SKU-{row.original.sku}</Text>,
   }),
-  columnHelper.accessor('rooms', {
-    id: 'rooms',
+  columnHelper.accessor('stock', {
+    id: 'stock',
     size: 200,
-    header: 'Rooms',
-    cell: ({ row }) => getStockStatus(row.original.rooms[0].price),
+    header: 'Stock',
+    cell: ({ row }) => getStockStatus(row.original.stock),
   }),
-  columnHelper.accessor('rooms.0.price', {
+  columnHelper.accessor('price', {
     id: 'price',
     size: 150,
     header: 'Price',
     cell: ({ row }) => (
-      <Text className="font-medium text-gray-700">
-        ${row.original.rooms[0].price}
-      </Text>
+      <Text className="font-medium text-gray-700">${row.original.price}</Text>
     ),
   }),
-  // columnHelper.display({
-  //   id: 'rating',
-  //   size: 200,
-  //   header: 'Rating',
-  //   cell: ({ row }) => getRatings(row.original.rating),
-  // }),
-  // columnHelper.accessor('status', {
-  //   id: 'status',
-  //   size: 120,
-  //   header: 'Status',
-  //   enableSorting: false,
-  //   cell: ({ row }) => getStatusBadge(row.original.status),
-  // }),
+  columnHelper.display({
+    id: 'rating',
+    size: 200,
+    header: 'Rating',
+    cell: ({ row }) => getRatings(row.original.rating),
+  }),
+  columnHelper.accessor('status', {
+    id: 'status',
+    size: 120,
+    header: 'Status',
+    enableSorting: false,
+    cell: ({ row }) => getStatusBadge(row.original.status),
+  }),
   columnHelper.display({
     id: 'action',
     size: 120,
