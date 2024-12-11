@@ -45,6 +45,8 @@ export default function PaginationTablePage() {
           hideFooter={true}
           classNames={{}}
           paginationClassName="px-4"
+          hotelData={{}}
+          isLoading={true}
         />
       </WidgetCard>
     </TableLayout>
