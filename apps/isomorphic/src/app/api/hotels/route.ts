@@ -50,7 +50,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
           },
         },
         room: {
-          create: reqData.rooms.map((room: any) => ({
+          create: reqData.room.map((room: any) => ({
             name: room.name,
             people: parseInt(room.people, 10),
             size: parseInt(room.size, 10),
