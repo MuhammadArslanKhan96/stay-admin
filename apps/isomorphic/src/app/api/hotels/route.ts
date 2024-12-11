@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(hotels);
   } catch (error: any) {
     console.log(error.message);
-    NextResponse.json(error.message);
+    return NextResponse.json(error.message);
   }
 }
 
@@ -83,7 +83,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     return NextResponse.json(newHotel);
   } catch (error: any) {
     console.log('error creating hotel: ' + error.message);
-    NextResponse.json({
+    return NextResponse.json({
       error: error.message,
     });
   }

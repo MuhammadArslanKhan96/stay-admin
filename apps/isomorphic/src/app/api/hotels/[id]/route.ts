@@ -39,7 +39,7 @@ export async function DELETE(
       .findOne({ _id: new ObjectId(id) });
     console.log('hotel found');
   } catch (error) {
-    NextResponse.json('no hotel found');
+    return NextResponse.json('no hotel found');
   }
   try {
     const deletedHotel = await db
