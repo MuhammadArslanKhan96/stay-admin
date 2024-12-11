@@ -55,7 +55,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
             people: parseInt(room.people, 10),
             size: parseInt(room.size, 10),
             beds: parseInt(room.beds, 10),
-            bathroom: parseInt(room.bathrooms, 10),
+            bathroom: parseInt(room.bathroom, 10),
             image: room.image,
             available: room.available ? Boolean(room.available) : false,
             price: parseInt(room.price, 10),
@@ -83,8 +83,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
     return NextResponse.json(newHotel);
   } catch (error: any) {
     console.log('error creating hotel: ' + error.message);
-    return NextResponse.json({
-      error: error.message,
-    });
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
