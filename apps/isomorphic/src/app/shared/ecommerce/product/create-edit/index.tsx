@@ -31,6 +31,7 @@ import {
 } from '@/validators/create-hotel.schema';
 import { useLayout } from '@/layouts/use-layout';
 import { LAYOUT_OPTIONS } from '@/config/enums';
+import { CreateProductInput } from '@/validators/create-product.schema';
 // import { CreateHotelInput } from '@/validators/create-hotel.schema';
 
 const MAP_STEP_TO_COMPONENT = {
@@ -60,7 +61,7 @@ function getDownloadableLink(googleDriveLink: string): string {
 interface IndexProps {
   slug?: string;
   className?: string;
-  product?: CreateHotelInput;
+  product?: CreateHotelInput | CreateProductInput;
 }
 
 export default function CreateEditProduct({
