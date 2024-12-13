@@ -58,7 +58,7 @@ import {
 export const menuItems = [
   // label start
   {
-    name: 'Overview',
+    name: 'Home',
   },
   // label end
   // {
@@ -82,7 +82,7 @@ export const menuItems = [
   //   icon: <ProjectWriteIcon />,
   // },
   {
-    name: 'CRM',
+    name: 'Overview',
     href: routes.crm.dashboard,
     icon: <CrmDashIcon />,
   },
