@@ -21,6 +21,7 @@ export const messages = {
   permissionIsRequired: 'Permission is required',
   teamIsRequired: 'New member must be assigned to a team',
   productNameIsRequired: 'Hotel name is required',
+  hotelCityIsRequired: 'City is required',
   productTypeIsRequired: 'Product type is required',
   priceIsRequired: 'Product price is required',
   retailPriceIsRequired: 'Retail price is required',

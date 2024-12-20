@@ -1,3 +1,4 @@
+import { CreateHotelInput } from '@/validators/create-hotel.schema';
 import { CreateProductInput } from '@/validators/create-product.schema';
 import isEmpty from 'lodash/isEmpty';
 
@@ -29,8 +30,26 @@ export const roomVariants = [
     price: '',
     image: '',
     available: '',
+    package: '',
   },
 ];
+
+export const imageVariants: string[] = [];
+
+export function hotelDataValues(hotel?: CreateHotelInput) {
+  return {
+    name: hotel?.name ?? '',
+    city: hotel?.city ?? '',
+    contact: {
+      number: hotel?.contact?.number,
+      email: hotel?.contact?.email ?? '',
+    },
+    image: hotel?.image ?? [''],
+    description: hotel?.description ?? '',
+    packages: hotel?.packages ?? [''],
+    room: hotel?.room,
+  };
+}
 
 export function defaultValues(product?: CreateProductInput) {
   return {

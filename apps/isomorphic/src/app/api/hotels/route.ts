@@ -2,7 +2,7 @@ import DnDTablePage from '@/app/(hydrogen)/tables/dnd/page';
 import clientPromise from './lib';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { NextRequest, NextResponse } from 'next/server';
-import prisma from "../../../../prisma/prisma"
+import prisma from '../../../../prisma/prisma';
 import { COLORS } from '@/app/shared/financial/dashboard/investment/investment-utils';
 import { Turret_Road } from 'next/font/google';
 export async function GET(req: NextRequest) {
@@ -37,12 +37,18 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const reqData: any = await req.json();
     console.log('req: ', reqData);
     // const name = data.name;
-    // console.log(name);
+    console.log(reqData.rating);
     const newHotel = await prisma.hotel.create({
       data: {
         name: reqData.name,
         city: reqData.city,
         image: reqData.image,
+        // rating: parseFloat(reqData.rating),
+        rating: 5.0,
+        // rating_count: reqData.ratingCount,
+        rating_count: 0,
+        packages: reqData.packages,
+        description: reqData.description,
         contact: {
           create: {
             number: reqData.contact.number,
@@ -59,6 +65,11 @@ export async function POST(req: NextRequest, res: NextResponse) {
             image: room.image,
             available: room.available ? Boolean(room.available) : false,
             price: parseInt(room.price, 10),
+            // rating: parseFloat(room.rating),
+            rating: 5.0,
+            // rating_count: parseInt(room.ratingCount),
+            rating_count: 0,
+            package: room.package,
           })),
         },
       },
@@ -67,20 +78,14 @@ export async function POST(req: NextRequest, res: NextResponse) {
         room: true,
       },
     });
-    // const newHot = await db.collection('hotels').insertOne({
-    //   name: data.name,
-    //   city: data.city,
-    //   images: {
-    //     main: data.images.main,
-    //     supporting: data.images.supporting,
-    //   },
-    //   contact: {
-    //     number: data.contact.number,
-    //     email: data.contact.email,
-    //   },
-    //   rooms: data.rooms,
-    // });
-    return NextResponse.json(newHotel);
+    if (!newHotel) {
+      return NextResponse.json(
+        { error: 'Error creating hotel' },
+        { status: 500 }
+      );
+      // throw new Error
+    }
+    return NextResponse.json(newHotel, { status: 200 });
   } catch (error: any) {
     console.log('error creating hotel: ' + error.message);
     return NextResponse.json({ error: error.message }, { status: 500 });

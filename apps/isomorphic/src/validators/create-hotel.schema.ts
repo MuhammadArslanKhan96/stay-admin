@@ -4,28 +4,30 @@ import { fileSchema } from './common-rules';
 
 export const hotelFormSchema = z.object({
   name: z.string().min(1, { message: messages.productNameIsRequired }),
+  city: z.string().min(1, { message: messages.cityIsRequired }),
   contact: z.object({
+    id: z.string(),
     number: z.number().min(7, { message: messages.contactNumberRequired }),
     email: z
       .string()
       .min(1, { message: messages.emailIsRequired })
       .email({ message: messages.invalidEmail }),
   }),
-  city: z.string().min(1, { message: messages.cityIsRequired }),
-  images: z.object({
-    main: z.string().min(1, { message: messages.imageIsRequired }),
-    supporting: z.array(z.string()).optional(),
-  }),
-  rooms: z.array(
+  image: z.array(z.string()),
+  description: z.string().min(1, messages.descriptionIsRequired),
+  packages: z.array(z.string()),
+  room: z.array(
     z.object({
+      id: z.string(),
       name: z.string().min(1, { message: messages.nameIsRequired }),
       people: z.number().optional(),
       size: z.number().optional(),
       beds: z.number().optional(),
-      bathrooms: z.number().optional(),
-      price: z.number().min(1, { message: messages.priceIsRequired }),
+      bathroom: z.number().optional(),
       image: z.string().min(1, { message: messages.imageIsRequired }),
       available: z.boolean().optional(),
+      price: z.number().min(1, { message: messages.priceIsRequired }),
+      package: z.string(),
     })
   ),
   //   sku: z.string().optional(),

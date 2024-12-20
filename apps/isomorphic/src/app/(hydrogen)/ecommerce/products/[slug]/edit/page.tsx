@@ -7,6 +7,7 @@ import PageHeader from '@/app/shared/page-header';
 import { metaObject } from '@/config/site.config';
 import { Button } from 'rizzui';
 import { routes } from '@/config/routes';
+import { redirect } from 'next/navigation';
 
 type Props = {
   params: { slug: string };
@@ -16,7 +17,7 @@ type Props = {
  * for dynamic metadata
  * @link: https://nextjs.org/docs/app/api-reference/functions/generate-metadata#generatemetadata-function
  */
-
+export const dynamic = 'force-dynamic';
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   // read route params
   const slug = params.slug;
@@ -25,15 +26,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 const pageHeader = {
-  title: 'Edit Product',
+  title: 'Edit Hotel',
   breadcrumb: [
     {
       href: routes.eCommerce.dashboard,
-      name: 'E-Commerce',
+      name: 'Home',
     },
     {
       href: routes.eCommerce.products,
-      name: 'Products',
+      name: 'Hotels',
     },
     {
       name: 'Edit',
@@ -41,11 +42,30 @@ const pageHeader = {
   ],
 };
 
-export default function EditProductPage({
+async function getHotel(id: string) {
+  console.log(id);
+  const url: string = `${process.env.NEXT_PUBLIC_BASE_URL}/api/hotels/${id}`;
+  // console.log(url);
+  const data = await fetch(url, {
+    method: 'GET',
+    next: { revalidate: 60 },
+  });
+  // console.log(data);
+  if (data.status == 404) {
+    redirect('/not-found');
+  }
+  const hotel = await data.json();
+  // console.log(hotel);
+  return hotel;
+}
+
+export default async function EditProductPage({
   params,
 }: {
-  params: { slug: string };
+  params: { slug: string; hotel: any };
 }) {
+  const hotel: any = await getHotel(params.slug);
+  console.log(hotel);
   return (
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb}>
@@ -55,12 +75,12 @@ export default function EditProductPage({
         >
           <Button as="span" className="w-full @lg:w-auto">
             <PiPlusBold className="me-1.5 h-[17px] w-[17px]" />
-            Add Product
+            Add Hotel
           </Button>
         </Link>
       </PageHeader>
 
-      <CreateEditProduct slug={params.slug} product={productData} />
+      <CreateEditProduct slug={params.slug} hotel={hotel} />
     </>
   );
 }

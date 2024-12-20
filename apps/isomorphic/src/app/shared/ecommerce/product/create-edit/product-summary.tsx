@@ -77,7 +77,7 @@ export default function ProductSummary({ className }: { className?: string }) {
           )}
         /> */}
 
-        {/* <Controller
+        <Controller
           control={control}
           name="description"
           render={({ field: { onChange, value } }) => (
@@ -89,7 +89,7 @@ export default function ProductSummary({ className }: { className?: string }) {
               labelClassName="font-medium text-gray-700 dark:text-gray-600 mb-1.5"
             />
           )}
-        /> */}
+        />
       </FormGroup>
       <FormGroup
         title="Contact"

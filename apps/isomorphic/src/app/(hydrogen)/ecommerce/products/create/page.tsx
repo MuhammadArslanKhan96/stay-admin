@@ -15,11 +15,11 @@ const pageHeader = {
   breadcrumb: [
     {
       href: routes.eCommerce.dashboard,
-      name: 'E-Commerce',
+      name: 'Dashboard',
     },
     {
       href: routes.eCommerce.products,
-      name: 'Products',
+      name: 'Hotels',
     },
     {
       name: 'Create',
@@ -37,7 +37,7 @@ export default function CreateProductPage() {
         >
           <Button as="span" className="w-full @lg:w-auto">
             <PiPlusBold className="me-1.5 h-[17px] w-[17px]" />
-            Add Product
+            Add Hotel
           </Button>
         </Link>
       </PageHeader>

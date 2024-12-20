@@ -29,7 +29,7 @@ export default function ProductVariants({ className }: { className?: string }) {
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'rooms',
+    name: 'room',
   });
 
   const addVariant = useCallback(() => append([...roomVariants]), [append]);
@@ -48,7 +48,7 @@ export default function ProductVariants({ className }: { className?: string }) {
           className="col-span-full flex flex-col gap-4 xl:gap-7"
         >
           {/* <Controller
-            name={`rooms.${index}.name`}
+            name={`room.${index}.name`}
             control={control}
             render={({ field: { onChange, value } }) => (
               <Select
@@ -67,7 +67,7 @@ export default function ProductVariants({ className }: { className?: string }) {
             placeholder="Room Name"
             className="flex-grow"
             prefix={''}
-            {...register(`rooms.${index}.name`)}
+            {...register(`room.${index}.name`)}
           />
           <Input
             type="number"
@@ -75,7 +75,7 @@ export default function ProductVariants({ className }: { className?: string }) {
             placeholder="150.00"
             className="flex-grow"
             prefix={'$'}
-            {...register(`rooms.${index}.price`)}
+            {...register(`room.${index}.price`)}
           />
           <Input
             type="text"
@@ -83,7 +83,7 @@ export default function ProductVariants({ className }: { className?: string }) {
             placeholder="2"
             className="flex-grow"
             prefix={''}
-            {...register(`rooms.${index}.image`)}
+            {...register(`room.${index}.image`)}
           />
           <Input
             type="number"
@@ -91,7 +91,7 @@ export default function ProductVariants({ className }: { className?: string }) {
             placeholder="2"
             className="flex-grow"
             prefix={''}
-            {...register(`rooms.${index}.people`)}
+            {...register(`room.${index}.people`)}
           />
           <Input
             type="number"
@@ -99,7 +99,7 @@ export default function ProductVariants({ className }: { className?: string }) {
             placeholder="2"
             className="flex-grow"
             prefix={''}
-            {...register(`rooms.${index}.beds`)}
+            {...register(`room.${index}.beds`)}
           />
           <Input
             type="number"
@@ -107,7 +107,7 @@ export default function ProductVariants({ className }: { className?: string }) {
             placeholder="2"
             className="flex-grow"
             prefix={''}
-            {...register(`rooms.${index}.bathroom`)}
+            {...register(`room.${index}.bathroom`)}
           />
           <Input
             type="number"
@@ -115,7 +115,15 @@ export default function ProductVariants({ className }: { className?: string }) {
             placeholder="50 sqft"
             className="flex-grow"
             prefix={''}
-            {...register(`rooms.${index}.size`)}
+            {...register(`room.${index}.size`)}
+          />
+          <Input
+            type="text"
+            label="Package"
+            placeholder="Economy"
+            className="flex-grow"
+            prefix={''}
+            {...register(`room.${index}.package`)}
           />
           {/* <FormGroup
             title="Availability"

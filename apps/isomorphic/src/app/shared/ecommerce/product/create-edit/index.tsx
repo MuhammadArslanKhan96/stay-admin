@@ -11,7 +11,10 @@ import FormNav, {
   formParts,
 } from '@/app/shared/ecommerce/product/create-edit/form-nav';
 import ProductSummary from '@/app/shared/ecommerce/product/create-edit/product-summary';
-import { defaultValues } from '@/app/shared/ecommerce/product/create-edit/form-utils';
+import {
+  defaultValues,
+  hotelDataValues,
+} from '@/app/shared/ecommerce/product/create-edit/form-utils';
 import ProductMedia from '@/app/shared/ecommerce/product/create-edit/product-media';
 import PricingInventory from '@/app/shared/ecommerce/product/create-edit/pricing-inventory';
 import ProductIdentifiers from '@/app/shared/ecommerce/product/create-edit/product-identifiers';
@@ -56,28 +59,117 @@ function getDownloadableLink(googleDriveLink: string): string {
 
   const fileId = match[1];
   return `https://drive.google.com/uc?export=download&id=${fileId}`;
+  // return fileId;
+}
+function rtrim(str: string) {
+  if (!str) return str;
+  const trimmed = str.replace(/<\/?p[^>]*>/g, '');
+  console.log(trimmed);
+  return trimmed;
 }
 
 interface IndexProps {
   slug?: string;
   className?: string;
-  product?: CreateHotelInput | CreateProductInput;
+  hotel?: CreateHotelInput;
 }
 
 export default function CreateEditProduct({
   slug,
-  product,
+  // product,
+  hotel,
   className,
 }: IndexProps) {
+  console.log('hotel data: \n', hotel);
   const { layout } = useLayout();
   const [isLoading, setLoading] = useState(false);
   const methods = useForm<CreateHotelInput>({
     // resolver: zodResolver(hotelFormSchema),
     // defaultValues: defaultValues(product),
+    defaultValues: hotelDataValues(hotel),
   });
 
   const onSubmit: SubmitHandler<CreateHotelInput> = async (data) => {
+    console.log('data: ', data);
     setLoading(true);
+    if (slug) {
+      try {
+        const res = await fetch(`/api/hotels/${slug}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: data.name,
+            city: data.city,
+            description: data.description,
+            packages: data.packages,
+            image: data.image,
+            contact: {
+              id: data.contact.id,
+              number: data.contact.number,
+              email: data.contact.email,
+            },
+            room: data.room,
+            available: true,
+          }),
+        });
+        console.log(res);
+        if (res.status != 200) {
+          throw new Error();
+        }
+        toast.success(
+          <Text as="b">Hotel successfully {slug ? 'updated' : 'created'}</Text>
+        );
+        methods.reset();
+        setLoading(false);
+      } catch (error: any) {
+        console.log(error.message);
+        toast.error(
+          <Text as="b">Failed to {slug ? 'update' : 'create'} hotel</Text>
+        );
+        setLoading(false);
+      }
+    } else {
+      try {
+        console.log(data);
+        const res = await fetch('/api/hotels', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: data.name,
+            city: data.city,
+            description: data.description,
+            packages:
+              data.packages.length > 1 ? data.packages : ['Economy', 'Luxary'],
+            image: data.image,
+            contact: {
+              number: data.contact.number,
+              email: data.contact.email,
+            },
+            room: data.room,
+            available: true,
+          }),
+        });
+        if (res.status != 200) {
+          throw new Error();
+        }
+        console.log(data);
+        toast.success(
+          <Text as="b">Hotel successfully {slug ? 'updated' : 'created'}</Text>
+        );
+        methods.reset();
+        setLoading(false);
+      } catch (error: any) {
+        console.log(error?.message);
+        toast.error(
+          <Text as="b">Failed to {slug ? 'update' : 'create'} hotel</Text>
+        );
+        setLoading(false);
+      }
+    }
     // setTimeout(() => {
     //   setLoading(false);
     //   console.log('product_data', data);
@@ -86,41 +178,43 @@ export default function CreateEditProduct({
     //   );
     //   methods.reset();
     // }, 600);
-    try {
-      const res = await fetch('/api/hotels', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: data.name,
-          city: data.city,
-          // description: data.description,
-          // images: {
-          //   main: data.images.main,
-          //   supporting: [data.images.main, data.images.main],
-          // },
-          image: data.images.main,
-          contact: {
-            number: data.contact.number,
-            email: data.contact.email,
-          },
-          room: data.rooms,
-          available: true,
-        }),
-      });
-      toast.success(
-        <Text as="b">Hotel successfully {slug ? 'updated' : 'created'}</Text>
-      );
-      methods.reset();
-      setLoading(false);
-    } catch (error: any) {
-      console.log(error?.message);
-      toast.error(
-        <Text as="b">Failed to {slug ? 'update' : 'create'} hotel</Text>
-      );
-      setLoading(false);
-    }
+    // try {
+    //   console.log(data)
+    // const res = await fetch('/api/hotels', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({
+    //     name: data.name,
+    //     city: data.city,
+    //     // description: data.description,
+    //     // images: {
+    //     //   main: data.images.main,
+    //     //   supporting: [data.images.main, data.images.main],
+    //     // },
+    //     image: data.images.main,
+    //     contact: {
+    //       number: data.contact.number,
+    //       email: data.contact.email,
+    //     },
+    //     room: data.rooms,
+    //     available: true,
+    //   }),
+    // });
+    // console.log(data);
+    //   toast.success(
+    //     <Text as="b">Hotel successfully {slug ? 'updated' : 'created'}</Text>
+    //   );
+    //   methods.reset();
+    //   setLoading(false);
+    // } catch (error: any) {
+    //   console.log(error?.message);
+    //   toast.error(
+    //     <Text as="b">Failed to {slug ? 'update' : 'create'} hotel</Text>
+    //   );
+    //   setLoading(false);
+    // }
   };
 
   return (
