@@ -31,6 +31,8 @@ export async function PATCH(
       { status: 404 }
     );
   }
+  // rating: parseFloat(reqData.rating),
+  // rating_count: reqData.ratingCount,
   try {
     console.log('contact: ', hotel.contact.id);
     const updatedHotel = await prisma.hotel.update({
@@ -39,8 +41,6 @@ export async function PATCH(
         name: reqData.name,
         city: reqData.city,
         image: reqData.image,
-        // rating: parseFloat(reqData.rating),
-        // rating_count: reqData.ratingCount,
         packages: reqData.packages,
         description: reqData.description,
         contact: {
@@ -68,8 +68,6 @@ export async function PATCH(
               image: room.image,
               available: room.available ? Boolean(room.available) : false,
               price: parseInt(room.price, 10),
-              // rating: parseFloat(room.rating),
-              // rating_count: parseInt(room.ratingCount),
               package: room.package,
             },
           })),
@@ -86,6 +84,8 @@ export async function PATCH(
     return NextResponse.json(error.message, { status: 500 });
   }
 }
+// rating: parseFloat(room.rating),
+// rating_count: parseInt(room.ratingCount),
 
 export async function DELETE(
   req: NextRequest,
