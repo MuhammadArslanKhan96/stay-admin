@@ -35,9 +35,41 @@ export async function PATCH(
   // rating_count: reqData.ratingCount,
   try {
     console.log('contact: ', hotel.contact.id);
-    const updatedHotel = await prisma.hotel.update({
+    const updatedHotel = await prisma.hotel.upsert({
       where: { id: hotelId },
-      data: {
+      create: {
+        name: reqData.name,
+        city: reqData.city,
+        image: reqData.image,
+        rating: 5.0,
+        rating_count: 0,
+        packages: reqData.packages,
+        description: reqData.description,
+        contact: {
+          create: {
+            number: reqData.contact.number,
+            email: reqData.contact.email,
+          },
+        },
+        room: {
+          create: reqData.room.map((room: any) => ({
+            name: room.name,
+            people: parseInt(room.people, 10),
+            size: parseInt(room.size, 10),
+            beds: parseInt(room.beds, 10),
+            bathroom: parseInt(room.bathroom, 10),
+            image: room.image,
+            available: room.available ? Boolean(room.available) : false,
+            price: parseInt(room.price, 10),
+            // rating: parseFloat(room.rating),
+            // rating_count: parseInt(room.ratingCount),
+            rating: 5.0,
+            rating_count: 0,
+            package: room.package,
+          })),
+        },
+      },
+      update: {
         name: reqData.name,
         city: reqData.city,
         image: reqData.image,
@@ -55,11 +87,24 @@ export async function PATCH(
           },
         },
         room: {
-          update: reqData.room.map((room: any, index: number) => ({
+          upsert: reqData.room.map((room: any, index: number) => ({
             where: {
-              id: hotel.room[index].id,
+              id: hotel.room[index]?.id ? hotel.room[index]?.id : '',
             },
-            data: {
+            create: {
+              name: room.name,
+              people: parseInt(room.people, 10),
+              size: parseInt(room.size, 10),
+              beds: parseInt(room.beds, 10),
+              bathroom: parseInt(room.bathroom, 10),
+              image: room.image,
+              available: room.available ? Boolean(room.available) : false,
+              price: parseInt(room.price, 10),
+              rating: 5.0,
+              rating_count: 0,
+              package: room.package,
+            },
+            update: {
               name: room.name,
               people: parseInt(room.people, 10),
               size: parseInt(room.size, 10),
