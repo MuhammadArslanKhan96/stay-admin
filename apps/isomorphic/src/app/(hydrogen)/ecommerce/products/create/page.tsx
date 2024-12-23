@@ -11,7 +11,7 @@ export const metadata = {
 };
 
 const pageHeader = {
-  title: 'Create Product',
+  title: 'Create Hotel',
   breadcrumb: [
     {
       href: routes.eCommerce.dashboard,
